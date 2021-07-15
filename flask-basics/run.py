@@ -1,19 +1,18 @@
 import flask
-import sw.dados
-import sw.naves
+import sw.naves.blueprint as naves
+from config.db import setup
 
 app = flask.Flask(__name__)  # dois underlines
-app.register_blueprint(sw.naves.bp)
+app.register_blueprint(naves.bp)
 
 @app.route("/")
 def home():
-    dados = {"qualquer": "coisa"}
-    return flask.jsonify(dados)
+    return 'home'
 
 @app.route("/personagens")
 def listar_personagens():
     return flask.jsonify(sw.personagens)
 
 if __name__ == "__main__":  # também com 2 underlines
-    sw.dados.setup()
+    setup()
     app.run(debug=True)
