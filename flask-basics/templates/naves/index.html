@@ -15,7 +15,7 @@
         <td>{{ nave._id }}</td>
         <td>       <!-- url_for('naves.editar_nave', id=nave._id) -->
             <a href="{{ url_for('naves.editar_nave', id=nave._id) }}">Editar</a>
-            <a href="#">Deletar</a>
+            <a href="{{ url_for('naves.deletar_nave', id=nave._id) }}">Deletar</a>
         </td>
     </tr>
     {% endfor %}

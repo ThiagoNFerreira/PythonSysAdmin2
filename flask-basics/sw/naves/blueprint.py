@@ -54,6 +54,11 @@ def get_nave(id):
     nave = dumps(list(models.get_naves())[id])
     return flask.Response(nave, headers=cabecalhos)
 
+@bp.route("/<id>/deletar")
+def deletar_nave(id):
+    models.deletar_nave(id)
+    return flask.redirect(flask.url_for("naves.index"))
+
 @bp.route("api/<int:id>", methods=["PUT"])
 def modificar_nave(id):
     nave = flask.request.json

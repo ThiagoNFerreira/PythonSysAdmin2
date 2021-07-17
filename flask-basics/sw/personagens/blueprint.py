@@ -26,21 +26,31 @@ def editar_personagem(id):
         models.modificar_personagens(id, {'nome': novo_nome})
         return flask.redirect(flask.url_for("personagens.index"))
 
-@bp.route("api")
+@bp.route("")
 def listar_personagens():
     personagens = dumps(list(models.get_personagens()))
     return flask.Response(personagens, headers=cabecalhos)
 
-@bp.route("api", methods=["POST"])
+@bp.route("/criar", methods=["GET", "POST"])
 def criar_personagem():
-    personagem = flask.request.json
-    result = models.criar_personagens(personagem)
-    return flask.jsonify({"id": str(result.inserted_id)})
+    if flask.request.method == 'GET':
+        return flask.render_template("personagens/edit.html",
+                                     verbo="Criar")
+
+    elif flask.request.method == 'POST':
+        nome = flask.request.form['personagem_nome']
+        models.criar_personagens({'nome': nome})
+        return flask.redirect(flask.url_for("personagens.index"))
 
 @bp.route("api/<int:id>")
 def get_personagem(id):
     personagem = dumps(list(models.get_personagens())[id])
     return flask.Response(personagem, headers=cabecalhos)
+
+@bp.route("/<id>/deletar")
+def deletar_personagem(id):
+    models.deletar_personagem(id)
+    return flask.redirect(flask.url_for("personagens.index"))
 
 @bp.route("api/<int:id>", methods=["PUT"])
 def modificar_personagem(id):
