@@ -19,11 +19,23 @@ def editar_nave(id):
     if flask.request.method == 'GET':
         nave = models.get_nave(id)
         return flask.render_template("naves/edit.html",
+                                     verbo="Editar",
                                      nave=nave)
 
     elif flask.request.method == 'POST':
         novo_nome = flask.request.form['nave_nome']
         models.modificar_nave(id, {'nome': novo_nome})
+        return flask.redirect(flask.url_for("naves.index"))
+
+@bp.route("/criar", methods=["GET", "POST"])
+def criar_nave():
+    if flask.request.method == 'GET':
+        return flask.render_template("naves/edit.html",
+                                     verbo="Criar")
+
+    elif flask.request.method == 'POST':
+        nome = flask.request.form['nave_nome']
+        models.criar_nave({'nome': nome})
         return flask.redirect(flask.url_for("naves.index"))
 
 @bp.route("api")
@@ -32,9 +44,9 @@ def listar_naves():
     return flask.Response(naves, headers=cabecalhos)
 
 @bp.route("api", methods=["POST"])
-def criar_nave():
+def criar_nave_api():
     nave = flask.request.json
-    result = models.criar_nave(nave)
+    result = models.criar_nave_api(nave)
     return flask.jsonify({"id": str(result.inserted_id)})
 
 @bp.route("api/<int:id>")
