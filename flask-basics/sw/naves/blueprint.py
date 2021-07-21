@@ -46,7 +46,7 @@ def listar_naves():
 @bp.route("api", methods=["POST"])
 def criar_nave_api():
     nave = flask.request.json
-    result = models.criar_nave_api(nave)
+    result = models.criar_nave(nave)
     return flask.jsonify({"id": str(result.inserted_id)})
 
 @bp.route("api/<int:id>")

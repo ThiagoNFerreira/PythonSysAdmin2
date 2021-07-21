@@ -1,3 +1,4 @@
+import docker
 import flask
 import sw.naves.blueprint as naves
 import sw.personagens.blueprint as personagens
@@ -15,5 +16,6 @@ def home():
 #     return flask.jsonify(sw.personagens)
 
 if __name__ == "__main__":  # também com 2 underlines
+    docker.DockerClient().containers.get('mongo-sw').start()
     setup()
     app.run(debug=True)
