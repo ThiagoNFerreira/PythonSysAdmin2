@@ -27,7 +27,7 @@
                  alt="status">
         </td>
         <td>
-            <a href="#">Editar</a>
+            <a href="{{ url_for('jenkins.edit_job', name=job.name) }}">Editar</a>
         </td>
     </tr>
 
