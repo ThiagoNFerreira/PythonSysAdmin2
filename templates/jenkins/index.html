@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Jenkins</h1>
+
+<table>
+    <tr>
+        <th>Job</th>
+        <th>Ultimo build</th>
+        <th>Status</th>
+        <th>Ações</th>
+    </tr>
+    {% for job in jobs %}
+    <tr>
+        <td>{{ job.fullName }}</td>
+        <td>
+            {% if not job.firstBuild %}
+                Nunca Buildou
+            {% elif job.lastSuccessfulBuild.number == job.lastBuild.number %}
+                Sucesso
+            {% else %}
+                Falha
+            {% endif %}
+        </td>
+        <td>
+            <img src="http://localhost:8080/images/32x32/{{ job.healthReport.0.iconUrl }}" 
+                 alt="status">
+        </td>
+        <td>
+            <a href="#">Editar</a>
+        </td>
+    </tr>
+
+    {% endfor %}
+</table>
+{% endblock %}
